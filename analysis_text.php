@@ -2,6 +2,10 @@
 class AnalysisText
 {
     const REGEX = "/(?<=[.?!] )|(?<=[.?!] )/";
+    const COLOR_NEW = 'lime';
+    const COLOR_EDIT = 'yellow';
+    const COLOR_DELETED = 'darkred';
+
     // первая версия текста
     protected $text1;
     // вторая версия текста
@@ -27,17 +31,17 @@ class AnalysisText
         for ($i=0; $i < $this->maxCount; $i++) { 
             // добавлено новое предложение
             if (!isset($this->text1[$i]) || empty($this->text1[$i])) {
-                $this->result[$i] = $this->formation($this->text2[$i], 'lime');
+                $this->result[$i] = $this->formation($this->text2[$i], self::COLOR_NEW);
                 break;
             }
             // удалено предложение
             if (!isset($this->text2[$i]) || empty($this->text2[$i])) {
-                $this->result[$i] = $this->formation($this->text1[$i], 'darkred');
+                $this->result[$i] = $this->formation($this->text1[$i], self::COLOR_DELETED);
                 break;
             }
             // предложение изменено
             if (strcmp($this->text1[$i], $this->text2[$i])) {
-                $this->result[$i] = $this->formation($this->text2[$i], 'yellow', $this->text1[$i]);
+                $this->result[$i] = $this->formation($this->text2[$i], self::COLOR_EDIT, $this->text1[$i]);
             } else {
                 $this->result[$i] = $this->text1[$i];
             }
